@@ -22,37 +22,37 @@ const buttonTap = {
 
 const services = [
   {
-   title: "Ремонт ноутбуков",
-   subtitle: "Диагностика, чистка и восстановление любой сложности",
-   benefit: "Чистка от пыли, замена термопасты, обслуживание системы охлаждения — продлим жизнь вашему ноутбуку.",
-   value: "Установка Windows, удаление вирусов, замена жёсткого диска / SSD, клавиатуры и матрицы экрана.",
-   useful: "Идеально, если ноутбук шумит, греется, не заряжается, появились битые пиксели или сломалась клавиатура.",
+    title: "Ремонт ноутбуков",
+    subtitle: "Диагностика, чистка и восстановление любой сложности",
+    benefit: "Чистка от пыли, замена термопасты, обслуживание системы охлаждения — продлим жизнь вашему ноутбуку.",
+    value: "Установка Windows, удаление вирусов, замена жёсткого диска / SSD, клавиатуры и матрицы экрана.",
+    useful: "Идеально, если ноутбук шумит, греется, не заряжается, появились битые пиксели или сломалась клавиатура.",
     icon: Laptop,
     accent: "from-blue-500/25 to-cyan-400/12",
     iconColor: "text-blue-200",
   },
   {
-   title: "Ремонт компьютеров",
-   subtitle: "Настройка и апгрейд системных блоков для игр и работы",
-   benefit: "Чистка от пыли, замена термопасты, обслуживание блока питания и кулеров.",
-   value: "Установка Windows, удаление вирусов, замена диска, подбор комплектующих для апгрейда.",
-   useful: "Поможем при зависаниях, синих экранах, низкой производительности или перегреве.",
-   icon: MonitorCog,
+    title: "Ремонт компьютеров",
+    subtitle: "Настройка и апгрейд системных блоков для игр и работы",
+    benefit: "Чистка от пыли, замена термопасты, обслуживание блока питания и кулеров.",
+    value: "Установка Windows, удаление вирусов, замена диска, подбор комплектующих для апгрейда.",
+    useful: "Поможем при зависаниях, синих экранах, низкой производительности или перегреве.",
+    icon: MonitorCog,
     accent: "from-purple-500/24 to-blue-500/12",
     iconColor: "text-purple-200",
   },
   {
-   title: "Ремонт смартфонов iPhone/Android",
-   subtitle: "Замена дисплея, аккумулятора, гнезда зарядки и прошивка ПО",
-   benefit: "Заменяем АКБ (включая вздутые), дисплеи (LCD/AMOLED, оригинал или копия), гнёзда зарядки (MicroUSB/Type‑C), устраняем проблемы со звуком, а также проводим комплексную чистку и разблокировку FRP (Google, Mi, Samsung).",
-   value: "Вы получаете полностью рабочий телефон с гарантией, чистотой внутри и оптимизированной системой — готовой к повседневной эксплуатации.",
-   useful: "Обращайтесь, если телефон быстро разряжается, не заряжается, разбит экран, пропал звук, зависает на логотипе или заблокирован после сброса до заводских настроек.",
+    title: "Ремонт смартфонов iPhone/Android",
+    subtitle: "Замена дисплея, аккумулятора, гнезда зарядки и прошивка ПО",
+    benefit: "Заменяем АКБ (включая вздутые), дисплеи (LCD/AMOLED, оригинал или копия), гнёзда зарядки (MicroUSB/Type‑C), устраняем проблемы со звуком, а также проводим комплексную чистку и разблокировку FRP (Google, Mi, Samsung).",
+    value: "Вы получаете полностью рабочий телефон с гарантией, чистотой внутри и оптимизированной системой — готовой к повседневной эксплуатации.",
+    useful: "Обращайтесь, если телефон быстро разряжается, не заряжается, разбит экран, пропал звук, зависает на логотипе или заблокирован после сброса до заводских настроек.",
     icon: Smartphone,
     accent: "from-cyan-400/22 to-teal-400/10",
     iconColor: "text-cyan-200",
   },
   {
-     title: "Телевизоры",
+    title: "Телевизоры",
     subtitle: "Бесплатная диагностика и ремонт без скрытых сюрпризов",
     benefit: "Замена подсветки (LED‑ленты), блока питания, инвертора, легкий ремонт материнской платы, настройка каналов, звука, изображения, обновление прошивки Smart TV и настройка цифровых приставок.",
     value: "Диагностика – бесплатно при заказе ремонта. Вы получаете рабочий телевизор с понятным счётом и гарантией на выполненные работы.",
@@ -61,20 +61,17 @@ const services = [
     accent: "from-amber-400/20 to-purple-500/10",
     iconColor: "text-amber-200",
   },
-
- {
-   title: "Обучение и настройка",
-   subtitle: "Поможем освоить смартфон, ноутбук и планшет — с выездом на дом",
-   benefit: "Обучение пользованию смартфоном, ноутбуком/планшетом c подробной инструкцией. Настройка почты, мессенджеров, портала Госуслуги (1 устройство). Консультация с демонстрацией до 30 минут.",
-   value: "Выезд на дом, индивидуальный подход, объясняем простым языком. Для пенсионеров — скидка 20% на ремонт при заказе в тот же день.",
-   useful: "Отлично подходит для пожилых людей и тех, кто только начинает осваивать цифровые устройства или хочет настроить важные сервисы.",
-   icon: ShieldCheck,
-   accent: "from-amber-400/20 to-purple-500/10",
-   iconColor: "text-amber-200",
-   centered: true  
+  {
+    title: "Обучение и настройка",
+    subtitle: "Поможем освоить смартфон, ноутбук и планшет — с выездом на дом",
+    benefit: "Обучение пользованию смартфоном, ноутбуком/планшетом c подробной инструкцией. Настройка почты, мессенджеров, портала Госуслуги (1 устройство). Консультация с демонстрацией до 30 минут.",
+    value: "Выезд на дом, индивидуальный подход, объясняем простым языком. Для пенсионеров — скидка 20% на ремонт при заказе в тот же день.",
+    useful: "Отлично подходит для пожилых людей и тех, кто только начинает осваивать цифровые устройства или хочет настроить важные сервисы.",
+    icon: ShieldCheck,
+    accent: "from-amber-400/20 to-purple-500/10",
+    iconColor: "text-amber-200",
+    centered: true  
   },
-
-
 ];
 
 const cardVariants: Variants = {
@@ -148,21 +145,21 @@ export default function Services() {
             const Icon = service.icon;
 
             return (
-           <motion.article
-            key={service.title}
-            custom={index}
-            variants={cardVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.22 }}
-            whileHover={{ y: -8, scale: 1.015 }}
-            whileTap={buttonTap}
-            transition={{ type: "spring", stiffness: 420, damping: 30 }}
-            className={`
-    group relative isolate flex min-h-[330px] flex-col overflow-hidden rounded-[24px] border border-white/15 bg-slate-950/34 p-4 shadow-[0_18px_54px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.14)] backdrop-blur-2xl supports-[backdrop-filter]:bg-slate-950/26 min-[390px]:p-5 sm:min-h-[360px]
-    ${service.centered ? 'md:col-span-2 xl:col-span-2 justify-self-center w-full max-w-2xl' : ''}
-  `}
->
+              <motion.article
+                key={service.title}
+                custom={index}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.22 }}
+                whileHover={{ y: -8, scale: 1.015 }}
+                whileTap={buttonTap}
+                transition={{ type: "spring", stiffness: 420, damping: 30 }}
+                className={`
+                  group relative isolate flex min-h-[330px] flex-col overflow-hidden rounded-[24px] border border-white/15 bg-slate-950/34 p-4 shadow-[0_18px_54px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.14)] backdrop-blur-2xl supports-[backdrop-filter]:bg-slate-950/26 min-[390px]:p-5 sm:min-h-[360px]
+                  ${service.centered ? 'md:col-span-2 xl:col-start-2 xl:col-span-2 justify-self-center w-full max-w-2xl' : ''}
+                `}
+              >
                 <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${service.accent} opacity-90`} />
                 <div className="pointer-events-none absolute inset-x-5 top-0 h-px bg-white/35" />
                 <div className="pointer-events-none absolute -right-12 -top-12 size-36 rounded-full bg-white/8 blur-3xl transition duration-500 group-hover:bg-white/12" />
