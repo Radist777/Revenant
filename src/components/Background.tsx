@@ -23,6 +23,7 @@ interface Nebula {
   alpha: number;
 }
 
+const stars: Star[] = []
 // Приглушенные цвета для мягкого космоса (сделаны темнее и ненасыщеннее)
 const colors = {
   blue: { r: 30, g: 100, b: 150 },      // Приглушенный синий
