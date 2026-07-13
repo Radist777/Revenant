@@ -7,10 +7,11 @@
    вида bg-surface-1 / border-hairline / rounded-card / shadow-e1.
    ============================================================ */
 @theme {
-  /* Шрифт — JetBrains Mono, крупный x-height хорошо читается */
+  /* Текст — Onest (гротеск с кириллицей), моно оставлен как акцентный
+     голос бренда: вордмарка, ярлыки секций, цифры */
   --font-sans:
-    "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", "Consolas",
-    monospace;
+    "Onest", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
   --font-mono:
     "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", "Consolas",
     monospace;
@@ -27,9 +28,11 @@
   --color-hairline: rgba(255, 255, 255, 0.08);
   --color-hairline-strong: rgba(255, 255, 255, 0.14);
 
-  /* Акцент (для CTA и активных состояний) */
+  /* Акцент (для CTA и активных состояний).
+     accent-soft = цвет звезды #AAC4FF из палитры фона — для иконок и ярлыков */
   --color-accent: #5b8cff;
-  --color-accent-strong: #6f7bff;
+  --color-accent-strong: #7fa4ff;
+  --color-accent-soft: #aac4ff;
 
   /* Радиусы — всего два значения (+ full из Tailwind) */
   --radius-control: 14px;
@@ -97,6 +100,21 @@ body {
   animation: pop-in 0.18s ease-out both;
 }
 
+/* Мигающий блок-курсор после вордмарки (терминальный голос бренда) */
+@keyframes cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.animate-cursor {
+  animation: cursor-blink 1.1s steps(1) infinite;
+}
+
 /* Тряска поля при ошибке валидации */
 @keyframes field-shake {
   0%,
@@ -127,7 +145,8 @@ body {
     transition: none;
   }
   .animate-pop,
-  .animate-shake {
+  .animate-shake,
+  .animate-cursor {
     animation: none;
   }
 }

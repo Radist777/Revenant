@@ -1,5 +1,6 @@
 import {
   ArrowRight,
+  Check,
   CheckCircle2,
   ChevronDown,
   Clock3,
@@ -7,7 +8,6 @@ import {
   ImagePlus,
   Phone,
   Plus,
-  Sparkles,
   Upload,
   User,
   Wrench,
@@ -118,7 +118,7 @@ function FieldShell({
           className={
             error
               ? `relative shrink-0 text-rose-200 ${multiline ? "mt-4" : ""}`
-              : `relative shrink-0 text-blue-200 ${multiline ? "mt-4" : ""}`
+              : `relative shrink-0 text-accent-soft ${multiline ? "mt-4" : ""}`
           }
         />
         {children}
@@ -134,7 +134,6 @@ export default function RequestForm() {
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<FormErrors>({});
   const [photos, setPhotos] = useState<File[]>([]);
-  const [isDeviceOpen, setIsDeviceOpen] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [hasPrivacyConsent, setHasPrivacyConsent] = useState(false);
@@ -201,7 +200,7 @@ export default function RequestForm() {
   return (
     <section
       id="request"
-      className="relative scroll-mt-24 px-3 py-12 pb-[calc(env(safe-area-inset-bottom)+124px)] sm:px-6 sm:py-8 sm:pb-36 lg:py-10"
+      className="relative scroll-mt-24 px-4 py-12 sm:px-6 sm:py-20 lg:py-24"
     >
       <div className="relative mx-auto w-full max-w-3xl">
         <div
@@ -209,11 +208,10 @@ export default function RequestForm() {
           className="reveal relative rounded-card border border-hairline bg-surface-1 px-4 py-5 shadow-e2 min-[390px]:px-5 sm:p-7"
         >
           <div className="relative mb-6">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-hairline bg-surface-2 px-3 py-2 text-xs font-medium uppercase tracking-[0.2em] text-blue-100/90">
-              <Sparkles size={15} className="text-blue-300" />
-              Заявка в сервис
-            </div>
-            <h2 className="text-balance text-3xl font-light leading-tight tracking-normal text-white min-[390px]:text-4xl sm:text-5xl">
+            <p className="mb-3 font-mono text-xs font-medium uppercase tracking-[0.24em] text-accent-soft">
+              {"// заявка в сервис"}
+            </p>
+            <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white min-[390px]:text-4xl sm:text-5xl">
               Расскажите, что случилось
             </h2>
             <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/80 min-[390px]:text-base sm:text-lg">
@@ -230,7 +228,7 @@ export default function RequestForm() {
                 placeholder="+7 (___) ___-__-__"
                 inputMode="tel"
                 autoComplete="tel"
-                className="relative h-14 min-w-0 flex-1 bg-transparent text-[16px] text-white outline-none placeholder:text-white/45"
+                className="relative h-14 min-w-0 flex-1 bg-transparent text-[16px] text-white outline-none placeholder:text-white/55"
               />
             </FieldShell>
 
@@ -245,7 +243,7 @@ export default function RequestForm() {
                 onChange={(event) => updateValue("description", event.target.value)}
                 placeholder="Например: не включается, шумит, быстро разряжается..."
                 rows={4}
-                className="relative min-h-28 min-w-0 flex-1 resize-none bg-transparent py-4 text-[16px] leading-relaxed text-white outline-none placeholder:text-white/45"
+                className="relative min-h-28 min-w-0 flex-1 resize-none bg-transparent py-4 text-[16px] leading-relaxed text-white outline-none placeholder:text-white/55"
               />
             </FieldShell>
 
@@ -257,7 +255,7 @@ export default function RequestForm() {
               className="flex min-h-12 items-center justify-between rounded-control border border-hairline bg-surface-2 px-4 text-sm font-medium text-white/85 transition-colors hover:border-hairline-strong"
             >
               <span className="flex items-center gap-2">
-                <Plus size={17} className="text-blue-300" />
+                <Plus size={17} className="text-accent-soft" />
                 Добавить детали
                 <span className="text-white/50">— имя, устройство, фото, время</span>
               </span>
@@ -265,7 +263,7 @@ export default function RequestForm() {
                 size={18}
                 className={[
                   "shrink-0 text-white/58 transition duration-300",
-                  showDetails ? "rotate-180 text-blue-200" : "",
+                  showDetails ? "rotate-180 text-accent-soft" : "",
                 ].join(" ")}
               />
             </button>
@@ -278,85 +276,40 @@ export default function RequestForm() {
                     onChange={(event) => updateValue("name", event.target.value)}
                     placeholder="Например, Алексей"
                     autoComplete="name"
-                    className="relative h-14 min-w-0 flex-1 bg-transparent text-[16px] text-white outline-none placeholder:text-white/45"
+                    className="relative h-14 min-w-0 flex-1 bg-transparent text-[16px] text-white outline-none placeholder:text-white/55"
                   />
                 </FieldShell>
 
-                <div
-                  className="relative"
-                  onBlur={(event) => {
-                    if (!event.currentTarget.contains(event.relatedTarget)) {
-                      setIsDeviceOpen(false);
-                    }
-                  }}
-                >
+                {/* Нативный select: системный список читабельнее и доступнее
+                    кастомного дропдауна, особенно на телефонах */}
+                <label className="block">
                   <span className="mb-2 block px-1 text-sm font-medium leading-none text-white/90">
                     Устройство (необязательно)
                   </span>
-                  <button
-                    type="button"
-                    aria-expanded={isDeviceOpen}
-                    aria-haspopup="listbox"
-                    onClick={() => setIsDeviceOpen((value) => !value)}
-                    className={[
-                      "relative flex min-h-14 w-full items-center gap-3 rounded-control border bg-surface-input px-4 text-left transition-colors duration-200 active:scale-[0.99]",
-                      isDeviceOpen ? "border-accent bg-surface-2" : "border-hairline",
-                    ].join(" ")}
-                  >
-                    <Wrench size={20} strokeWidth={1.85} className="relative shrink-0 text-blue-200" />
-                    <span
+                  <span className="relative flex min-h-14 items-center gap-3 rounded-control border border-hairline bg-surface-input px-4 transition-colors duration-200 focus-within:border-accent focus-within:bg-surface-2">
+                    <Wrench size={20} strokeWidth={1.85} className="shrink-0 text-accent-soft" />
+                    <select
+                      value={values.device}
+                      onChange={(event) => updateValue("device", event.target.value)}
                       className={[
-                        "relative min-w-0 flex-1 text-[16px]",
-                        values.device ? "text-white" : "text-white/45",
+                        "h-14 min-w-0 flex-1 appearance-none bg-transparent pr-7 text-[16px] outline-none [color-scheme:dark]",
+                        values.device ? "text-white" : "text-white/55",
                       ].join(" ")}
                     >
-                      {values.device || "Выберите устройство"}
-                    </span>
+                      <option value="">Выберите устройство</option>
+                      {repairOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                     <ChevronDown
                       size={19}
                       strokeWidth={1.85}
-                      className={[
-                        "relative shrink-0 text-white/58 transition duration-300",
-                        isDeviceOpen ? "rotate-180 text-blue-200" : "",
-                      ].join(" ")}
+                      className="pointer-events-none absolute right-4 shrink-0 text-white/58"
                     />
-                  </button>
-
-                  {isDeviceOpen && (
-                    <div
-                      role="listbox"
-                      className="animate-pop absolute inset-x-0 top-[calc(100%+8px)] z-30 overflow-hidden rounded-control border border-hairline-strong bg-surface-2 p-1.5 shadow-e2"
-                    >
-                      {repairOptions.map((option) => {
-                        const isSelected = values.device === option;
-
-                        return (
-                          <button
-                            key={option}
-                            type="button"
-                            role="option"
-                            aria-selected={isSelected}
-                            onClick={() => {
-                              updateValue("device", option);
-                              setIsDeviceOpen(false);
-                            }}
-                            className={[
-                              "relative flex min-h-11 w-full items-center justify-between rounded-control px-3.5 text-left text-[15px] font-medium transition",
-                              isSelected
-                                ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
-                                : "text-white/80 hover:bg-white/[0.07] hover:text-white",
-                            ].join(" ")}
-                          >
-                            <span>{option}</span>
-                            {isSelected && (
-                              <CheckCircle2 size={17} className="text-blue-100" />
-                            )}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
+                  </span>
+                </label>
 
             <div className={errors.photos ? "animate-shake" : undefined}>
               <span className="mb-2 block px-1 text-sm font-medium leading-none text-white/90">
@@ -370,7 +323,7 @@ export default function RequestForm() {
                     : "border-hairline-strong hover:border-accent hover:bg-surface-2",
                 ].join(" ")}
               >
-                <span className="relative flex size-12 shrink-0 items-center justify-center rounded-control border border-hairline bg-surface-2 text-blue-200">
+                <span className="relative flex size-12 shrink-0 items-center justify-center rounded-control border border-hairline bg-surface-2 text-accent-soft">
                   <ImagePlus size={22} strokeWidth={1.8} />
                 </span>
                 <span className="relative min-w-0 flex-1">
@@ -423,7 +376,7 @@ export default function RequestForm() {
                     onChange={(event) => updateValue("contactTime", event.target.value)}
                     placeholder="Сегодня после 18:00"
                     autoComplete="off"
-                    className="relative h-14 min-w-0 flex-1 bg-transparent text-[16px] text-white outline-none placeholder:text-white/45"
+                    className="relative h-14 min-w-0 flex-1 bg-transparent text-[16px] text-white outline-none placeholder:text-white/55"
                   />
                 </FieldShell>
               </div>
@@ -447,11 +400,11 @@ export default function RequestForm() {
                     className={[
                       "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-[7px] border transition",
                       hasPrivacyConsent
-                        ? "border-blue-200 bg-blue-400 text-slate-950"
+                        ? "border-accent bg-accent text-canvas"
                         : "border-white/30 bg-surface-input text-transparent",
                     ].join(" ")}
                   >
-                    <CheckCircle2 size={14} strokeWidth={2.5} aria-hidden="true" />
+                    <Check size={14} strokeWidth={3} aria-hidden="true" />
                   </span>
                   <span className="text-[15px] leading-relaxed text-white/90">
                     Согласен с политикой конфиденциальности
@@ -461,7 +414,7 @@ export default function RequestForm() {
                   <button
                     type="button"
                     onClick={openPrivacyPolicy}
-                    className="font-medium text-blue-100 underline decoration-blue-200/40 underline-offset-4 transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+                    className="font-medium text-accent-soft underline decoration-accent-soft/40 underline-offset-4 transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft"
                   >
                     Открыть политику
                   </button>
@@ -472,25 +425,17 @@ export default function RequestForm() {
               )}
             </div>
 
+            {/* Кнопка всегда активна: если согласия нет, validate() покажет
+                понятную ошибку — это честнее «немой» заблокированной кнопки */}
             <button
               type="submit"
-              disabled={!hasPrivacyConsent}
-              aria-disabled={!hasPrivacyConsent}
-              className={[
-                "group mt-1 flex min-h-16 w-full items-center justify-center rounded-control border px-5 text-[16px] font-semibold transition",
-                hasPrivacyConsent
-                  ? "border-hairline-strong bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-e1 hover:from-blue-500 hover:to-indigo-500 active:scale-[0.99]"
-                  : "cursor-not-allowed border-hairline bg-surface-2 text-white/45 shadow-none",
-              ].join(" ")}
+              className="group mt-1 flex min-h-16 w-full items-center justify-center rounded-control bg-accent px-5 text-[16px] font-semibold text-canvas shadow-e1 transition hover:bg-accent-strong active:scale-[0.99]"
             >
               <span className="flex items-center gap-2">
                 Отправить заявку
                 <ArrowRight
                   size={19}
-                  className={[
-                    "-rotate-45 transition-transform duration-300",
-                    hasPrivacyConsent ? "group-hover:rotate-0" : "text-white/30",
-                  ].join(" ")}
+                  className="-rotate-45 transition-transform duration-300 group-hover:rotate-0"
                 />
               </span>
             </button>
@@ -499,7 +444,10 @@ export default function RequestForm() {
       </div>
 
       {isSent && (
-        <div className="animate-pop fixed inset-x-4 top-[calc(env(safe-area-inset-top)+16px)] z-[60] mx-auto flex max-w-sm items-center gap-3 rounded-control border border-hairline-strong bg-surface-2 p-3 text-white shadow-e2">
+        <div
+          role="status"
+          className="animate-pop fixed inset-x-4 top-[calc(env(safe-area-inset-top)+16px)] z-[60] mx-auto flex max-w-sm items-center gap-3 rounded-control border border-hairline-strong bg-surface-2 p-3 text-white shadow-e2"
+        >
           <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-emerald-400/16 text-emerald-200">
             <CheckCircle2 size={22} />
           </span>

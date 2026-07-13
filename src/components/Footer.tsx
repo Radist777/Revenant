@@ -33,12 +33,12 @@ export default function Footer() {
 
   return (
     <footer className="relative w-full border-t border-hairline bg-surface-1">
-      <div className="mx-auto w-full max-w-6xl px-4 pt-10 pb-[calc(env(safe-area-inset-bottom)+28px)] sm:px-6 sm:pt-12 sm:pb-10 lg:pb-12">
+      <div className="mx-auto w-full max-w-6xl px-4 pt-10 pb-8 sm:px-6 sm:pt-12 sm:pb-10 lg:pb-12">
         <div className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
           {/* Бренд + гарантия */}
           <div className="max-w-sm">
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue-200/85">
-              Ревенант
+            <p className="font-mono text-sm font-semibold uppercase tracking-[0.18em] text-white">
+              Revenant<span className="text-accent">_</span>
             </p>
             <p className="mt-2 text-base leading-relaxed text-white/80">
               Ремонт и настройка компьютерной и цифровой техники в Барнауле.
@@ -47,7 +47,7 @@ export default function Footer() {
               <ShieldCheck
                 size={18}
                 strokeWidth={1.8}
-                className="mt-0.5 shrink-0 text-blue-300"
+                className="mt-0.5 shrink-0 text-accent-soft"
                 aria-hidden="true"
               />
               На выполненные работы и установленные комплектующие
@@ -65,12 +65,12 @@ export default function Footer() {
                     href={href}
                     target={external ? "_blank" : undefined}
                     rel={external ? "noreferrer" : undefined}
-                    className="group flex items-center gap-3 text-white/80 transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+                    className="group flex items-center gap-3 text-white/80 transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft"
                   >
                     <Icon
                       size={18}
                       strokeWidth={1.8}
-                      className="shrink-0 text-blue-300/90"
+                      className="shrink-0 text-accent-soft/90"
                       aria-hidden="true"
                     />
                     <span>
@@ -94,12 +94,12 @@ export default function Footer() {
                   href={MAP_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-white/80 transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+                  className="inline-flex items-center gap-2 text-white/80 transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft"
                 >
                   <MapPin
                     size={17}
                     strokeWidth={1.8}
-                    className="shrink-0 text-blue-300/90"
+                    className="shrink-0 text-accent-soft/90"
                     aria-hidden="true"
                   />
                   На карте — Барнаул
@@ -109,7 +109,7 @@ export default function Footer() {
                 <button
                   type="button"
                   onClick={openPrivacyPolicy}
-                  className="text-left text-white/80 transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+                  className="text-left text-white/80 transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft"
                 >
                   Политика конфиденциальности
                 </button>
@@ -119,13 +119,13 @@ export default function Footer() {
         </div>
 
         {/* Нижняя строка */}
-        <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-5 text-[15px] text-white/60 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-5 text-[15px] text-white/70 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <span>© 2026 Ревенант. Все права защищены.</span>
           <a
             href="https://cryzothic.tech"
             target="_blank"
             rel="noreferrer"
-            className="w-fit text-white/60 transition hover:text-white/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+            className="w-fit text-white/70 transition hover:text-white/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft"
           >
             Сделано в cryzothic.tech
           </a>

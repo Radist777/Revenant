@@ -31,7 +31,7 @@ function PolicyBlockView({ block }: { block: PolicyBlock }) {
           >
             <span
               aria-hidden="true"
-              className="mt-2 size-1.5 shrink-0 rounded-full bg-blue-300/80"
+              className="mt-2 size-1.5 shrink-0 rounded-full bg-accent-soft/80"
             />
             <span>{item}</span>
           </li>
@@ -63,7 +63,7 @@ function PolicyBlockView({ block }: { block: PolicyBlock }) {
                       <li key={itemIndex} className="flex gap-2">
                         <span
                           aria-hidden="true"
-                          className="mt-2 size-1.5 shrink-0 rounded-full bg-blue-300/80"
+                          className="mt-2 size-1.5 shrink-0 rounded-full bg-accent-soft/80"
                         />
                         <span>{item}</span>
                       </li>
@@ -157,7 +157,7 @@ export default function PrivacyPolicyModal({
         type="button"
         aria-label="Закрыть политику конфиденциальности"
         onClick={onClose}
-        className="absolute inset-0 h-full w-full cursor-default bg-slate-950/80"
+        className="absolute inset-0 h-full w-full cursor-default bg-canvas/80"
         tabIndex={-1}
       />
 
@@ -171,7 +171,7 @@ export default function PrivacyPolicyModal({
             {/* Шапка */}
             <div className="flex items-start justify-between gap-4 border-b border-hairline px-5 py-4 sm:px-7 sm:py-5">
               <div className="flex items-center gap-3">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-[13px] border border-blue-300/25 bg-blue-400/10 text-blue-200">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-[13px] border border-accent/25 bg-accent/10 text-accent-soft">
                   <ShieldCheck size={20} strokeWidth={1.8} aria-hidden="true" />
                 </span>
                 <div>
@@ -192,7 +192,7 @@ export default function PrivacyPolicyModal({
                 type="button"
                 onClick={onClose}
                 aria-label="Закрыть"
-                className="flex size-9 shrink-0 items-center justify-center rounded-full border border-hairline bg-surface-2 text-white/80 transition-colors hover:border-hairline-strong hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+                className="flex size-9 shrink-0 items-center justify-center rounded-full border border-hairline bg-surface-2 text-white/80 transition-colors hover:border-hairline-strong hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft"
               >
                 <X size={18} />
               </button>
@@ -221,7 +221,7 @@ export default function PrivacyPolicyModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex min-h-11 w-full items-center justify-center rounded-control border border-hairline bg-surface-2 text-sm font-medium text-white transition-colors hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+                className="flex min-h-11 w-full items-center justify-center rounded-control border border-hairline bg-surface-2 text-sm font-medium text-white transition-colors hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft"
               >
                 Понятно
               </button>

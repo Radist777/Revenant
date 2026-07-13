@@ -51,12 +51,9 @@ export default function Header() {
         <a
           href="#"
           onClick={scrollToTop}
-          className="text-lg font-semibold tracking-tight text-white"
+          className="font-mono text-base font-semibold uppercase tracking-[0.18em] text-white"
         >
-          RE
-          <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            VENANT
-          </span>
+          Revenant<span className="text-accent">_</span>
         </a>
 
         <nav className="flex items-center gap-1">
@@ -75,16 +72,16 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <a
             href="tel:+73852000000"
-            className="flex items-center gap-2 text-[15px] font-medium text-white/85 transition-colors hover:text-white"
+            className="flex items-center gap-2 font-mono text-sm font-medium text-white/85 transition-colors hover:text-white"
           >
-            <Phone size={16} className="text-blue-300" />
+            <Phone size={16} className="text-accent-soft" />
             +7 (3852) 00-00-00
           </a>
 
           <a
             href="#request"
             onClick={(event) => scrollToSection(event, "#request")}
-            className="group flex items-center gap-2 rounded-full border border-hairline-strong bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-2.5 text-[15px] font-semibold text-white shadow-e1 transition hover:from-blue-500 hover:to-indigo-500 active:scale-[0.98]"
+            className="group flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-[15px] font-semibold text-canvas shadow-e1 transition hover:bg-accent-strong active:scale-[0.98]"
           >
             Записаться
             <ArrowRight

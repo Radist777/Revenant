@@ -29,6 +29,7 @@ debug.log
 
 # --- Environment ---
 .env
+.claude/
 .env.*
 !.env.example
 

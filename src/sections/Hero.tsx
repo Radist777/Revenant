@@ -1,5 +1,6 @@
 import {
   ArrowRight,
+  BadgePercent,
   Computer,
   Laptop,
   MapPin,
@@ -7,71 +8,74 @@ import {
   ShieldCheck,
   Smartphone,
   Tv,
-  Zap,
 } from "lucide-react";
 import { scrollToSection } from "../utils/smoothScroll";
 import { useReveal } from "../utils/useReveal";
 
-const deviceIcons = [Smartphone, Computer, Tv, Laptop];
+const devices = [
+  { label: "Смартфоны", icon: Smartphone },
+  { label: "Компьютеры", icon: Computer },
+  { label: "Телевизоры", icon: Tv },
+  { label: "Ноутбуки", icon: Laptop },
+];
 
 export default function Hero() {
   const cardRef = useReveal<HTMLDivElement>();
 
   return (
     <section id="hero" className="relative min-h-[100svh] w-full overflow-hidden">
-      <div className="relative z-10 flex min-h-[100svh] items-start justify-center px-4 pb-[calc(env(safe-area-inset-bottom)+120px)] pt-[calc(env(safe-area-inset-top)+10px)] sm:items-center sm:px-6 sm:py-16 lg:py-12">
-        <div ref={cardRef} className="reveal w-full max-w-md sm:max-w-5xl">
-          <div className="relative flex min-h-[min(74svh,680px)] w-full flex-col justify-between overflow-hidden rounded-card border border-hairline bg-surface-1 px-5 py-5 shadow-e2 min-[390px]:px-6 min-[390px]:py-6 sm:min-h-[680px] sm:px-10 sm:py-10 lg:min-h-[720px] lg:px-14 lg:py-14">
+      <div className="relative z-10 flex min-h-[100svh] items-start justify-center px-4 pb-[calc(env(safe-area-inset-bottom)+120px)] pt-[calc(env(safe-area-inset-top)+16px)] sm:items-center sm:px-6 sm:py-16 lg:py-12">
+        <div ref={cardRef} className="reveal w-full max-w-md sm:max-w-3xl">
+          <div className="relative w-full overflow-hidden rounded-card border border-hairline bg-surface-1 px-5 py-6 shadow-e2 min-[390px]:px-6 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
             {/* Один тонкий акцент сверху вместо стеклянных слоёв */}
             <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
-            <div className="relative">
-              <div className="mb-5 flex items-center justify-between gap-3 min-[390px]:mb-6 sm:mb-8">
-                <div className="flex min-h-10 items-center gap-2 rounded-full border border-hairline bg-surface-2 px-3 text-xs uppercase tracking-[0.18em] text-white/85">
-                  <MapPin size={14} className="text-blue-300" />
-                  <span>Барнаул</span>
-                </div>
-
-                <div className="flex shrink-0 gap-1.5 rounded-full border border-hairline bg-surface-2 p-1.5">
-                  {deviceIcons.map((Icon) => (
-                    <span
-                      key={Icon.displayName}
-                      className="flex size-8 items-center justify-center rounded-full bg-surface-1 text-white/70"
-                    >
-                      <Icon size={15} />
-                    </span>
-                  ))}
-                </div>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex min-h-10 items-center gap-2 rounded-full border border-hairline bg-surface-2 px-3 font-mono text-xs uppercase tracking-[0.18em] text-white/85">
+                <MapPin size={14} className="text-accent-soft" />
+                <span>Барнаул</span>
               </div>
 
-              <div className="mx-auto max-w-2xl text-center">
-                <p className="mb-3 text-xs font-medium uppercase tracking-[0.22em] text-blue-200/85">
-                  Ремонт цифровой техники
-                </p>
-
-                <h1 className="text-[clamp(3.05rem,17vw,4.65rem)] font-light leading-[0.9] tracking-tight text-white sm:text-7xl lg:text-[6rem]">
-                  <span className="inline-block">RE</span>
-                  <span className="inline-block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    {" "}VENANT
+              <div className="flex shrink-0 gap-1.5 rounded-full border border-hairline bg-surface-2 p-1.5" aria-hidden="true">
+                {devices.map(({ label, icon: Icon }) => (
+                  <span
+                    key={label}
+                    title={label}
+                    className="flex size-8 items-center justify-center rounded-full bg-surface-1 text-white/70"
+                  >
+                    <Icon size={15} />
                   </span>
-                </h1>
-
-                <p className="mx-auto mt-4 max-w-xl text-balance text-base leading-relaxed text-white/88 min-[390px]:text-[17px] sm:mt-6 sm:text-xl sm:leading-relaxed">
-                  Профессиональный ремонт ПК, телефонов и цифровой техники.
-                </p>
-
-                <p className="mx-auto mt-2 max-w-lg text-balance text-sm leading-relaxed text-white/70 min-[390px]:text-[15px] sm:mt-3 sm:text-lg">
-                  Диагностика, замена комплектующих и понятная цена до начала работ.
-                </p>
+                ))}
               </div>
             </div>
 
-            <div className="relative mt-6 min-[390px]:mt-7 sm:mt-10">
-              <div className="grid grid-cols-[1fr_auto] gap-2.5">
+            <div className="mx-auto mt-8 max-w-2xl text-center sm:mt-10">
+              <p className="font-mono text-sm font-medium uppercase tracking-[0.3em] text-accent-soft">
+                Revenant
+                <span
+                  aria-hidden="true"
+                  className="animate-cursor ml-1.5 inline-block h-[0.95em] w-[0.5em] translate-y-[0.14em] bg-accent"
+                />
+              </p>
+
+              <h1 className="mt-4 text-balance text-[clamp(2.35rem,10vw,3.3rem)] font-semibold leading-[1.04] tracking-tight text-white sm:text-6xl lg:text-7xl">
+                Вернём технику к&nbsp;жизни
+              </h1>
+
+              <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-white/80 min-[390px]:text-[17px] sm:mt-6 sm:text-lg">
+                Ремонт компьютеров, ноутбуков, смартфонов и телевизоров
+                в&nbsp;Барнауле. Диагностика и понятная цена — до начала работ.
+              </p>
+            </div>
+
+            <div className="relative mt-7 sm:mt-10">
+              {/* На мобильных эти же действия всегда видны в нижней панели —
+                  дублировать их в карточке не нужно */}
+              <div className="hidden w-full max-w-xl grid-cols-[1fr_auto] gap-2.5 lg:mx-auto lg:grid">
                 <a
                   href="#request"
                   onClick={(event) => scrollToSection(event, "#request")}
-                  className="group flex min-h-14 items-center justify-center rounded-control border border-hairline-strong bg-gradient-to-r from-blue-600 to-indigo-600 px-5 text-sm font-medium text-white shadow-e1 transition hover:from-blue-500 hover:to-indigo-500 active:scale-[0.98] min-[390px]:text-base"
+                  className="group flex min-h-14 items-center justify-center rounded-control bg-accent px-5 text-base font-semibold text-canvas shadow-e1 transition hover:bg-accent-strong active:scale-[0.98]"
                 >
                   <span className="flex items-center gap-2">
                     Записаться
@@ -84,21 +88,20 @@ export default function Hero() {
 
                 <a
                   href="tel:+73852000000"
-                  aria-label="Позвонить"
-                  className="flex min-h-14 items-center justify-center gap-2 rounded-control border border-hairline bg-surface-2 px-5 text-sm font-medium text-white transition-colors hover:border-hairline-strong active:scale-[0.97] min-[390px]:text-base"
+                  className="flex min-h-14 items-center justify-center gap-2 rounded-control border border-hairline bg-surface-2 px-5 text-base font-medium text-white transition-colors hover:border-hairline-strong active:scale-[0.97]"
                 >
-                  <Phone size={20} strokeWidth={1.9} className="text-blue-300" />
-                  <span className="hidden min-[420px]:inline">Позвонить</span>
+                  <Phone size={20} strokeWidth={1.9} className="text-accent-soft" />
+                  Позвонить
                 </a>
               </div>
 
-              <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3">
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3 lg:mt-3">
                 <div className="flex min-h-16 items-start gap-3 rounded-control border border-hairline bg-surface-2 p-3">
-                  <ShieldCheck size={21} className="mt-0.5 shrink-0 text-blue-300" />
+                  <ShieldCheck size={21} className="mt-0.5 shrink-0 text-accent-soft" />
                   <div>
-                    <h3 className="text-base font-medium leading-tight text-white">
+                    <p className="text-base font-medium leading-tight text-white">
                       Честный ремонт
-                    </h3>
+                    </p>
                     <p className="mt-1 text-sm leading-relaxed text-white/75">
                       Озвучиваем цену до ремонта — никаких «сюрпризов».
                     </p>
@@ -106,11 +109,11 @@ export default function Hero() {
                 </div>
 
                 <div className="flex min-h-16 items-start gap-3 rounded-control border border-hairline bg-surface-2 p-3">
-                  <Zap size={21} className="mt-0.5 shrink-0 text-amber-300" />
+                  <BadgePercent size={21} className="mt-0.5 shrink-0 text-amber-300" />
                   <div>
-                    <h3 className="text-base font-medium leading-tight text-white">
+                    <p className="text-base font-medium leading-tight text-white">
                       Пенсионерам скидка 20%
-                    </h3>
+                    </p>
                     <p className="mt-1 text-sm leading-relaxed text-white/75">
                       Мы ценим ваш бюджет.
                     </p>
