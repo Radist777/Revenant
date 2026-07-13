@@ -1,45 +1,47 @@
 import { useEffect, useRef } from "react";
 
-// Упрощенные интерфейсы только для статических данных
-interface Color {
-  r: number;
-  g: number;
-  b: number;
-}
+/**
+ * Спокойный пиксельный космос.
+ * — Низкая плотность, мягкое редкое мерцание, бело-синяя палитра.
+ * — Очень редкие бледные падающие звёзды.
+ * — Ограничение FPS ради производительности.
+ * — При prefers-reduced-motion фон полностью статичный (без анимации).
+ */
 
-interface Star {
+// Приглушённая палитра: в основном белые и голубые, тёплый оттенок — редко.
+const STAR_COLORS = ["#FFFFFF", "#DCE7FF", "#AAC4FF", "#FFF3D4"] as const;
+
+const PIXEL = 2; // размер «пикселя» звезды в CSS-пикселях
+const STAR_DENSITY_DESKTOP = 0.00006;
+const STAR_DENSITY_MOBILE = 0.00004;
+const TWINKLE_SHARE = 0.45; // доля мерцающих звёзд
+const TARGET_FPS = 40; // выше FPS — плавнее падающие звёзды
+const FRAME_INTERVAL = 1000 / TARGET_FPS;
+
+// Падающие звёзды — редко, бледно и плавно
+const SHOOTING_MIN_DELAY = 12000;
+const SHOOTING_MAX_DELAY = 26000;
+const SHOOTING_TRAIL = 22; // длиннее хвост = более гладкая линия
+
+type Star = {
   x: number;
   y: number;
-  radius: number;
-  alpha: number;
-  color: Color;
-}
-
-interface Nebula {
-  x: number;
-  y: number;
-  radius: number;
-  color: Color;
-  alpha: number;
-}
-
-const stars: Star[] = []
-// Приглушенные цвета для мягкого космоса (сделаны темнее и ненасыщеннее)
-const colors = {
-  blue: { r: 30, g: 100, b: 150 },      // Приглушенный синий
-  violet: { r: 100, g: 50, b: 150 },     // Приглушенный фиолетовый
-  warmYellow: { r: 180, g: 150, b: 80 }, // Бледный желтый
-  turquoise: { r: 30, g: 130, b: 120 },  // Тусклая бирюза
-  deepBlue: { r: 15, g: 40, b: 90 },     // Очень глубокий синий
+  color: string;
+  base: number; // базовая непрозрачность
+  twinkle: boolean;
+  phase: number;
+  speed: number; // угловая скорость мерцания
 };
 
-// Функция ограничения значений
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(max, Math.max(min, value));
+type Shooter = {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  trail: { x: number; y: number }[];
+};
 
-// Утилита для rgba (оставляем, так как удобна для градиентов)
-const rgba = (color: Color, alpha: number) =>
-  `rgba(${color.r},${color.g},${color.b},${clamp(alpha, 0, 1)})`;
+const rand = (min: number, max: number) => min + Math.random() * (max - min);
 
 export default function Background() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -47,124 +49,183 @@ export default function Background() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
     let width = 0;
     let height = 0;
+    let dpr = 1;
+    let stars: Star[] = [];
+    let shooter: Shooter | null = null;
+    let nextShootingAt = 0;
+    let lastFrame = 0;
+    let rafId = 0;
 
-    // Константы конфигурации
     const isMobile = window.innerWidth < 768;
-    const starCount = isMobile ? 80 : 160;
+    const density = isMobile ? STAR_DENSITY_MOBILE : STAR_DENSITY_DESKTOP;
 
-    // Сдвиг туманностей: определяем их позиции статично, не в draw
-    // Значения от 0 до 1 (процент от ширины/высоты)
-    const nebulaeData: Nebula[] = [
-      { x: 0.15, y: 0.2, radius: 0.7, color: colors.deepBlue, alpha: 0.15 },
-      { x: 0.8, y: 0.35, radius: 0.65, color: colors.violet, alpha: 0.12 },
-      { x: 0.3, y: 0.8, radius: 0.6, color: colors.turquoise, alpha: 0.1 },
-      { x: 0.75, y: 0.75, radius: 0.5, color: colors.warmYellow, alpha: 0.08 },
-    ];
-
-    // Функция отрисовки статического космоса
-    const drawStaticCosmos = () => {
-      // 1. Очистка и установка размеров (важно при ресайзе)
-      ctx.setTransform(1, 0, 0, 1, 0, 0); // Сброс трансформаций
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Учитываем pixelRatio
-      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-      ctx.scale(pixelRatio, pixelRatio);
-
-      // 2. Фон-градиент (очень темный, не отвлекающий)
-      const background = ctx.createLinearGradient(0, 0, width, height);
-      background.addColorStop(0, "#020510"); // Почти черный
-      background.addColorStop(0.5, "#04091a"); // Очень темный синий
-      background.addColorStop(1, "#02040c"); // Снова почти черный
-      ctx.fillStyle = background;
-      ctx.fillRect(0, 0, width, height);
-
-      // 3. Рисуем туманности (мягкие градиенты)
-      ctx.globalCompositeOperation = "screen"; // Для мягкого наложения
-      const maxDim = Math.max(width, height);
-
-      for (const nebula of nebulaeData) {
-        const x = nebula.x * width;
-        const y = nebula.y * height;
-        const radius = maxDim * nebula.radius;
-
-        const glow = ctx.createRadialGradient(x, y, 0, x, y, radius);
-        // Мягкое затухание: центр -> край
-        glow.addColorStop(0, rgba(nebula.color, nebula.alpha));
-        glow.addColorStop(0.5, rgba(nebula.color, nebula.alpha * 0.4));
-        glow.addColorStop(1, rgba(nebula.color, 0));
-
-        ctx.fillStyle = glow;
-        ctx.fillRect(0, 0, width, height);
-      }
-      ctx.globalCompositeOperation = "source-over"; // Сброс режима наложения
-
-      // 4. Генерируем и рисуем звезды (один раз)
-      for (let i = 0; i < starCount; i++) {
-        const x = Math.random() * width;
-        const y = Math.random() * height;
-        const depth = Math.random(); // 0 (близко) до 1 (далеко)
-
-        // Мягкое свечение: большинство звезд тусклые, маленькие
-        const radius = Math.random() * (isMobile ? 0.6 : 0.8) + 0.1;
-        // Альфа: чем глубже (меньше depth), тем тусклее. Максимальная альфа очень низкая.
-        const alpha = Math.random() * 0.1 + (depth * 0.1) + 0.02;
-
-        // Выбор цвета: 90% белые/холодные, 10% теплые
-        const isWarm = Math.random() > 0.9;
-        const color = isWarm ? colors.warmYellow : colors.turquoise;
-
-        // Рисуем звезду
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = rgba(color, alpha);
-        ctx.fill();
-
-        // Необязательно: добавляем супер-легкое сияние для 5% самых ярких звезд
-        if (!isMobile && depth > 0.95 && Math.random() > 0.9) {
-          ctx.beginPath();
-          ctx.arc(x, y, radius * 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = rgba(color, alpha * 0.2); // Очень прозрачное свечение
-          ctx.fill();
-        }
+    const initStars = () => {
+      const count = Math.floor(width * height * density);
+      stars = [];
+      for (let i = 0; i < count; i++) {
+        const gx = Math.round((Math.random() * width) / PIXEL) * PIXEL;
+        const gy = Math.round((Math.random() * height) / PIXEL) * PIXEL;
+        stars.push({
+          x: gx,
+          y: gy,
+          color: STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)],
+          base: rand(0.16, 0.5),
+          twinkle: Math.random() < TWINKLE_SHARE,
+          phase: Math.random() * Math.PI * 2,
+          // период мерцания 3–6 c
+          speed: (Math.PI * 2) / rand(3000, 6000),
+        });
       }
     };
 
-    // Функция обновления размеров окна
+    const drawStars = (time: number) => {
+      for (const star of stars) {
+        let alpha = star.base;
+        if (star.twinkle && !reducedMotion) {
+          // Плавное мягкое мерцание: base*0.5 … base
+          const t = 0.5 + 0.5 * Math.sin(time * star.speed + star.phase);
+          alpha = star.base * (0.5 + 0.5 * t);
+        }
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = star.color;
+        ctx.fillRect(star.x, star.y, PIXEL, PIXEL);
+      }
+      ctx.globalAlpha = 1;
+    };
+
+    const spawnShooter = () => {
+      const fromLeft = Math.random() < 0.5;
+      // Медленнее за кадр (при 40 FPS это ~110–180 px/с) — движение плавное
+      const speed = rand(2.8, 4.4);
+      const angle = rand(0.32, 0.5); // радианы вниз (~18–29°)
+      shooter = {
+        x: fromLeft ? rand(0, width * 0.4) : rand(width * 0.6, width),
+        y: rand(-20, height * 0.25),
+        vx: (fromLeft ? 1 : -1) * speed * Math.cos(angle),
+        vy: speed * Math.sin(angle),
+        trail: [],
+      };
+    };
+
+    const updateShooter = () => {
+      if (!shooter) return;
+      shooter.trail.push({ x: shooter.x, y: shooter.y });
+      if (shooter.trail.length > SHOOTING_TRAIL) shooter.trail.shift();
+      shooter.x += shooter.vx;
+      shooter.y += shooter.vy;
+
+      // ушла за пределы
+      if (
+        shooter.x < -30 ||
+        shooter.x > width + 30 ||
+        shooter.y > height + 30
+      ) {
+        shooter = null;
+      }
+    };
+
+    const drawShooter = () => {
+      if (!shooter) return;
+      const { trail } = shooter;
+      for (let i = 0; i < trail.length; i++) {
+        const p = trail[i];
+        // хвост тусклее у хвоста, ярче у головы; общий максимум бледный
+        const alpha = (i / trail.length) * 0.5;
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = "#CFE0FF";
+        ctx.fillRect(p.x, p.y, PIXEL, PIXEL);
+      }
+      // голова
+      ctx.globalAlpha = 0.65;
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(shooter.x, shooter.y, PIXEL, PIXEL);
+      ctx.globalAlpha = 1;
+    };
+
+    const clear = () => {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(dpr, dpr);
+    };
+
+    const renderStatic = () => {
+      clear();
+      drawStars(0);
+    };
+
+    const loop = (time: number) => {
+      rafId = requestAnimationFrame(loop);
+      if (time - lastFrame < FRAME_INTERVAL) return;
+      lastFrame = time;
+
+      clear();
+      drawStars(time);
+
+      if (time >= nextShootingAt && !shooter) {
+        spawnShooter();
+        nextShootingAt =
+          time + rand(SHOOTING_MIN_DELAY, SHOOTING_MAX_DELAY);
+      }
+      updateShooter();
+      drawShooter();
+    };
+
+    const start = () => {
+      if (reducedMotion) {
+        renderStatic();
+        return;
+      }
+      cancelAnimationFrame(rafId);
+      nextShootingAt = performance.now() + rand(3000, 8000);
+      lastFrame = 0;
+      rafId = requestAnimationFrame(loop);
+    };
+
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-
-      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(width * pixelRatio);
-      canvas.height = Math.floor(height * pixelRatio);
-
-      // После изменения размера нужно перерисовать всё
-      drawStaticCosmos();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      initStars();
+      start();
     };
 
-    // Вешаем только один листенер — на изменение размера
-    window.addEventListener("resize", resize);
+    // Пауза, когда вкладка неактивна — экономим ресурсы
+    const handleVisibility = () => {
+      if (reducedMotion) return;
+      if (document.hidden) {
+        cancelAnimationFrame(rafId);
+      } else {
+        start();
+      }
+    };
 
-    // Первичная инициализация
+    window.addEventListener("resize", resize);
+    document.addEventListener("visibilitychange", handleVisibility);
     resize();
 
-    // Очистка при размонтировании
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      // pointer-events-none важен, чтобы клики проходили сквозь фон на сайт
-      className="fixed inset-0 z-0 h-screen w-screen pointer-events-none"
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 z-0 h-screen w-screen"
     />
   );
 }
