@@ -83,7 +83,7 @@ export default function Hero() {
                 </a>
 
                 <a
-                  href="tel:+73852000000"
+                  href="tel:+79095043036"
                   aria-label="Позвонить"
                   className="flex min-h-14 items-center justify-center gap-2 rounded-control border border-hairline bg-surface-2 px-5 text-sm font-medium text-white transition-colors hover:border-hairline-strong active:scale-[0.97] min-[390px]:text-base"
                 >

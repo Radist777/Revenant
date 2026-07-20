@@ -4,8 +4,8 @@ import { usePrivacyPolicy } from "../context/privacyPolicy";
 const contactLinks = [
   {
     label: "Телефон",
-    value: "+7 (3852) 00-00-00",
-    href: "tel:+73852000000",
+    value: "+7 (909) 504-30-36",
+    href: "tel:+79095043036",
     icon: Phone,
     external: false,
   },

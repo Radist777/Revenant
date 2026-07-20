@@ -51,7 +51,7 @@ export default function Navbar() {
         <div className="relative overflow-hidden rounded-[34px] border border-white/12 bg-slate-950/70 p-2 shadow-[0_16px_56px_rgba(0,0,0,0.44)] backdrop-blur-2xl">
           <div className="relative grid grid-cols-3 gap-2">
             <a
-              href="tel:+73852000000"
+              href="tel:++79095043036"
               className="flex min-h-14 flex-col items-center justify-center gap-1 rounded-[26px] border border-hairline bg-surface-2 text-white transition hover:border-hairline-strong active:scale-[0.97]"
             >
               <Phone size={21} strokeWidth={1.9} className="text-blue-300" />
